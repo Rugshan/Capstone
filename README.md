@@ -18,8 +18,34 @@ Currently using Linux (Ubuntu) for development.
 
 Please install the following packages required for Porcupine:
 
-```pip install pvporcupine```  
-```pip install python-decouple```
+#### Porcupine
+1. ```pip install pvporcupine```  
+2. ```pip install python-decouple```
+
+#### PyAudio
+1. ```sudo apt-get install portaudio19-dev python3-pyaudio```  
+2. ```pip install pyaudio```  
+3. ```sudo apt-get install libasound2:i386```
+
+##### This part of the code is used to debug for the correct audio input. Make sure your VM or robot has audio input enabled.
+1. ```print('Device Count: ' + str(pa.get_device_count()))```  
+2. ```print('Device Info: ' + str(pa.get_device_info_by_index(0)))```  
+
+### JackControl
+1. ```sudo apt install multimedia-jack```  
+2. ```pulseaudio --kill```  
+3. ```jack_control start```  
+
+#### Permissions
+1. ```sudo usermod -a -G audio $USER```  
+2. **Log out and log back in.**  
+3. **After every log in, please run: ```jack_control start```**
+
+#### Change User Limits ((src)[.org/faq/linux_rt_config.html])
+1. ```sudo nano /etc/security/limits.d/audio.d```  
+2. Add the following two lines and save to the file:
+   1. ```@audio   -  rtprio     95```
+   2. ```@audio   -  memlock    unlimited```
 
 ### 3. Picovoice Access Keys  
 
@@ -29,4 +55,12 @@ In the src/ directory, create a file called '.env'. Open .env in a text editor a
 
 Where, the access key can be obtained by creating a free account at https://picovoice.ai/console/ and copying it from the 'AccessKey' tab.
 
-### More Instructions to Come
+### Starting The Program
+1. `jack_control start`
+2. `python3 src/porcupine.py`  
+
+- You can try saying 'picovoice' or 'jarvis' as they are two defaut-enabled wake words. You should see a print statement in terminal after the word was detected.
+
+- Refer to earlier instructions for any environment issues.
+
+### More Instructions to Come...
