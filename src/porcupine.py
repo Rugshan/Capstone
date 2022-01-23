@@ -15,8 +15,11 @@ audio_stream = None
 
 try:
  
-    # Set up porcupine with wake word.
-    porcupine = pvporcupine.create(access_key=access_key, keywords=['picovoice', 'jarvis'])
+    # Set up porcupine with wake words.
+    porcupine = pvporcupine.create(
+        access_key=access_key,
+        keywords=['grapefruit', 'terminator', 'view glass']
+    )
     #print('\nKEYWORDS:' + str(pvporcupine.KEYWORDS))
     print('\nHandle Created')
 
@@ -44,14 +47,33 @@ try:
     while True:
 
         # Read and pass audio to Porcupine
-        pcm = audio_stream.read(porcupine.frame_length)
+        pcm = audio_stream.read(porcupine.frame_length, exception_on_overflow = False)
         audio_frame = struct.unpack_from("h" * porcupine.frame_length, pcm)
         keyword_index = porcupine.process(audio_frame)
 
+        # Wake Word 0 (grapefruit)
         if keyword_index == 0 :
-            print("Wake Word 'picovoice' detected")
+
+            print("Wake word 'grapefruit' for fetching detected.")
+            # ADD OBJECT DETECTION FUNCTION
+                # Also add fetching function.
+        
+        # Wake Word 1 (terminator)
         if keyword_index == 1 :
-            print("Wake word 'jarvis' detected")
+
+            print("Wake word 'terminator' for following detected.")
+            # ADD OBJECT DETECTION FUNCTION
+                # Also add following function.
+
+        # Wake Word 2 (view glass)
+        if keyword_index == 2 :
+
+            print("Wake word 'view glass' for selfie detected.")
+            # ADD OBJECT DETECTION FUNCTION
+                # Call save_photo() from inside object detection.
+            
+            from utilities import save_photo
+            save_photo.save_photo()
  
 finally:
 
