@@ -63,7 +63,7 @@ If the command 'curl' is not found, you can install it by using the command the 
 
 2. Use ```git clone https://github.com/Rugshan/Capstone.git``` this clones the main branch of the repository.
 
-3. Create a local developer branch with ```git checkout -b developer```. 'checkout' is used to switch between branches, and '-b' is used to create a new branch and switch to it at the same time.
+3. Create a local developer branch with ```git checkout developer```. 'checkout' is used to switch between branches, and '-b' is used to create a new branch and switch to it at the same time.
 
 4. Set up tracking for the first time with ```git branch --set-upstream-to=origin/developer``` this tracks the developer branch in the remote (remote is called origin).
 
