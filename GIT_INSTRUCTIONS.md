@@ -63,7 +63,7 @@ If the command 'curl' is not found, you can install it by using the command the 
 
 2. Use ```git clone https://github.com/Rugshan/Capstone.git``` this clones the main branch of the repository.
 
-3. Create a local developer branch with ```git checkout developer```. 'checkout' is used to switch between branches, and '-b' is used to create a new branch and switch to it at the same time.
+3. Switch to the developer branch with ```git checkout developer```. 'checkout' is used to switch between branches. 
 
 4. Set up tracking for the first time with ```git branch --set-upstream-to=origin/developer``` this tracks the developer branch in the remote (remote is called origin).
 
@@ -89,7 +89,7 @@ Install the `GitLense` extension in the Extensions Tab. Adds some Git-related fe
 
 First, switch to the developer branch with ```git checkout developer```
 
-Then, checkout to a new branch named according to what you're currently working on with ```git checkout -b [NEW BRANCH NAME]```. Example, the name could be 'add-turning', 'update-documentation', 'solve-bugX'.
+Then, checkout to a new branch named according to what you're currently working on with ```git checkout -b [NEW BRANCH NAME]```. The '-b' option is used to create a new branch and switch to it at the same time. Example, the name could be 'add-X', 'update-X', 'solve-X'. Typically, 'X' would be the identifier # of the open GitHub issue, like 'solve-13'.
 
 ## .gitignore
 
