@@ -50,6 +50,12 @@ Please install the following packages required for Porcupine:
 #### OpenCV
 1. ```pip install opencv-python```
 
+#### GPIO Zero
+1. ```sudo apt install python3-gpiozero```   
+
+#### RPi.GPIO
+1. ```pip install RPi.GPIO```  
+
 ### 3. Picovoice Access Keys  
 
 In the src/ directory, create a file called '.env'. Open .env in a text editor and paste the following line:
