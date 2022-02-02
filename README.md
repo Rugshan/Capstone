@@ -42,7 +42,7 @@ Please install the following packages required for Porcupine:
 3. **After every log in, please run: ```jack_control start```**
 
 #### Change User Limits ((src)[https://jackaudio.org/faq/linux_rt_config.html])
-1. ```sudo nano /etc/security/limits.d/audio.d```  
+1. ```sudo nano /etc/security/limits.d/audio.conf```  
 2. Add the following two lines and save to the file:
    1. ```@audio   -  rtprio     95```
    2. ```@audio   -  memlock    unlimited```
