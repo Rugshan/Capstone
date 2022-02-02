@@ -29,25 +29,30 @@ try:
             audio = r.adjust_for_ambient_noise(source)
             audio = r.listen(source)
 
-        # Translate Speech-to-Text:
+        # Translate Speech-to-Text, split to list, lowercase:
         recog = r.recognize_google(audio, language = 'en-US')
+        recog_list = recog.split()
+        for i in range(len(recog_list)):
+            recog_list[i] = recog_list[i].lower()
+        print("Heard:" + str(recog_list))
 
         # Fetch
-        if recog == 'fetch' :
+        if recog_list[0] == 'robot' and recog_list[1] == 'fetch' :
 
             print("Wake word 'fetch' for fetching detected.")
             # ADD OBJECT DETECTION FUNCTION
                 # Also add fetching function.
+                # pass recog_list[2] as object name
         
         # Follow
-        if recog == 'follow' :
+        if recog_list[0] == 'robot' and recog_list[1] == 'follow' :
 
             print("Wake word 'follow' for following detected.")
             # ADD OBJECT DETECTION FUNCTION
                 # Also add following function.
 
         # Selfie
-        if recog == 'selfie' :
+        if recog_list[0] == 'robot' and recog_list[1] == 'selfie' :
 
             print("Wake word 'selfie' for selfie detected.")
             # ADD OBJECT DETECTION FUNCTION
