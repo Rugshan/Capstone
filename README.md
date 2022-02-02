@@ -14,7 +14,19 @@
 	
 Currently using Linux (Ubuntu) for development.
 
-### 2. Packages  
+### 2. Packages
+
+### (Newer, transitioning)
+
+#### SpeechRecognition
+1. `pip3 install SpeechRecognition`
+
+#### PyAudio
+1. `sudo apt-get install python-pyaudio python3-pyaudio`
+
+
+
+### (Older) 
 
 Please install the following packages required for Porcupine:
 
