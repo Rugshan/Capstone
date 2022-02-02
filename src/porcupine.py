@@ -22,6 +22,7 @@ try:
     )
     #print('\nKEYWORDS:' + str(pvporcupine.KEYWORDS))
     print('\nHandle Created')
+    print("Your available keywords are:\n'grapefruit', 'terminator', 'view glass'")
 
     # Set up PyAudio.
     with noalsaerr():
