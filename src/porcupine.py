@@ -1,3 +1,4 @@
+# Combine this with main.py to keep 'robot' wake word.
 # Necessary Imports
 import struct
 import pyaudio
