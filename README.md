@@ -70,9 +70,10 @@ Please install the following packages required for Porcupine:
 
 ### 3. Picovoice Access Keys  
 
-In the src/ directory, create a file called '.env'. Open .env in a text editor and paste the following line:
+In the src/ directory, create a file called '.env'. Open .env in a text editor and paste the following line(s):
 
-```SECRET_KEY=COPY_PASTE_YOUR_ACCESS_KEY_HERE```
+`SECRET_KEY=COPY_PASTE_YOUR_ACCESS_KEY_HERE`
+`INPUT_INDEX=PASTE_INDEX_OF_YOUR_INPUT_DEVICE_HERE`
 
 Where, the access key can be obtained by creating a free account at https://picovoice.ai/console/ and copying it from the 'AccessKey' tab.
 

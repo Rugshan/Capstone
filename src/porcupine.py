@@ -19,11 +19,11 @@ try:
     # Set up porcupine with wake words.
     porcupine = pvporcupine.create(
         access_key=access_key,
-        keywords=['grapefruit', 'terminator', 'view glass']
+        keywords=['grapefruit', 'terminator', 'jarvis']
     )
     #print('\nKEYWORDS:' + str(pvporcupine.KEYWORDS))
     print('\nHandle Created')
-    print("Your available keywords are:\n'grapefruit', 'terminator', 'view glass'")
+    print("Your available keywords are:\n'grapefruit', 'terminator', 'jarvis'")
 
     # Set up PyAudio.
     with noalsaerr():
@@ -34,6 +34,10 @@ try:
     #for i in range(0, pa.get_device_count()):
     #    print('\n\nDevice Info: ' + str(pa.get_device_info_by_index(i)))
 
+    # Input Index
+    from decouple import config
+    input_index = int(config('INPUT_INDEX'))
+
     # Set up audio stream.
     audio_stream = pa.open(
         rate = porcupine.sample_rate,
@@ -41,7 +45,7 @@ try:
         format = pyaudio.paInt16,
         input = True,
         frames_per_buffer = porcupine.frame_length,
-        input_device_index = 1
+        input_device_index = input_index
     )
     print('Audio Stream Created')
 
@@ -70,7 +74,7 @@ try:
         # Wake Word 2 (view glass)
         if keyword_index == 2 :
 
-            print("Wake word 'view glass' for selfie detected.")
+            print("Wake word 'jarvis' for selfie detected.")
             # ADD OBJECT DETECTION FUNCTION
                 # Call save_photo() from inside object detection.
             
