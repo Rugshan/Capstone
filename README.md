@@ -16,38 +16,32 @@ Currently using Linux (Ubuntu) for development.
 
 ### 2. Packages
 
-### (Newer, transitioning)
+Please install the following packages required for Porcupine:
 
 #### SpeechRecognition
 1. `pip3 install SpeechRecognition`
 
 #### PyAudio
-1. `sudo apt-get install python-pyaudio python3-pyaudio`
+1. `sudo apt-get install python-pyaudio portaudio19-dev python3-pyaudio`
+2. `pip install pyaudio`
+3. `sudo apt-get install libasound2:i386`
 
+#### JackControl For Raspberry Pi:
+1. `sudo apt-get install jackd2`  
+2. `jack_control start` 
 
+#### JackControl For Ubuntu:
+1. `sudo apt install multimedia-jack` 
+2. `pulseaudio --kill`  
+3. `jack_control start`
 
-### (Older) 
-
-Please install the following packages required for Porcupine:
+#### Picovoice (Need v2.1.0 for Wake-Words)
+1. `pip3 install picovoice`
 
 #### Porcupine
 1. ```pip install pvporcupine```  
 2. ```pip install python-decouple```
-
-#### PyAudio
-1. ```sudo apt-get install portaudio19-dev python3-pyaudio```  
-2. ```pip install pyaudio```  
-3. ```sudo apt-get install libasound2:i386```
-
-##### This part of the code is used to debug for the correct audio input. Make sure your VM or robot has audio input enabled.
-1. ```print('Device Count: ' + str(pa.get_device_count()))```  
-2. ```print('Device Info: ' + str(pa.get_device_info_by_index(0)))```  
-
-### JackControl
-1. ```sudo apt install multimedia-jack```  
-2. ```pulseaudio --kill```  
-3. ```jack_control start```  
-
+ 
 #### Permissions
 1. ```sudo usermod -a -G audio $USER```  
 2. **Log out and log back in.**  
@@ -72,8 +66,9 @@ Please install the following packages required for Porcupine:
 
 In the src/ directory, create a file called '.env'. Open .env in a text editor and paste the following line(s):
 
-`SECRET_KEY=COPY_PASTE_YOUR_ACCESS_KEY_HERE`
-`INPUT_INDEX=PASTE_INDEX_OF_YOUR_INPUT_DEVICE_HERE`
+`SECRET_KEY=COPY_PASTE_YOUR_ACCESS_KEY_HERE`  
+`INPUT_INDEX=PASTE_INDEX_OF_YOUR_INPUT_DEVICE_HERE`  
+`PLATFORM="YOUR PLATFORM"` # Either "Ubuntu" or "Raspberry Pi"  
 
 Where, the access key can be obtained by creating a free account at https://picovoice.ai/console/ and copying it from the 'AccessKey' tab.
 
