@@ -113,9 +113,9 @@ try:
                 print(f"Heard: {str(recog_list)}")
 
                 # Fetch Program
-                if recog_list[0] == 'fetch':
+                if recog_list[0] == 'fetch' or recog_list[0] == 'get' or recog_list[0] == 'grab':
 
-                    print("Command 'fetch' detected.")
+                    print(f"Command '{recog_list[0]}' detected.")
                     print(f"Fetching '{recog_list[1]}'...")
 
                     # ADD OBJECT DETECTION FUNCTION
