@@ -45,4 +45,6 @@ def save_photo():
     cam.release()
     print('Camera Off')
 
+# save_photo() Uncomment to test file directly.
+
 
