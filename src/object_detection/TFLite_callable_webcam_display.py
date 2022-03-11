@@ -53,7 +53,7 @@ class ObjectDetection:
     def __init__(self):
         self.TARGET = "apple"
         self.objectFound = False
-        MODEL_NAME = "ssdMobilenetModel"
+        MODEL_NAME = "TFLite_Model"
         GRAPH_NAME = "detect.tflite"
         LABELMAP_NAME = "labelmap.txt"
         self.min_conf_threshold = 0.6
