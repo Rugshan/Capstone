@@ -168,25 +168,5 @@ class ObjectDetection:
             for i in range(len(scores)):
                 if ((scores[i] > self.min_conf_threshold) and (scores[i] <= 1.0) and (self.TARGET=="NA" or (self.TARGET==self.labels[int(classes[i])]))):
                     self.objectFound = True
-                    ymin = int(max(1,(boxes[i][0] * self.imH)))
-                    xmin = int(max(1,(boxes[i][1] * self.imW)))
-                    ymax = int(min(self.imH,(boxes[i][2] * self.imH)))
-                    xmax = int(min(self.imW,(boxes[i][3] * self.imW)))
-            
-                    cv2.rectangle(frame, (xmin,ymin), (xmax,ymax), (10, 255, 0), 2)
-
-                    # Draw label
-                    object_name = self.labels[int(classes[i])] # Look up object name from "labels" array using class index
-                    label = '%s: %d%%' % (object_name, int(scores[i]*100)) # Example: 'person: 72%'
-                    labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2) # Get font size
-                    label_ymin = max(ymin, labelSize[1] + 10) # Make sure not to draw label too close to top of window
-                    cv2.rectangle(frame, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine-10), (255, 255, 255), cv2.FILLED) # Draw white box to put label text in
-                    cv2.putText(frame, label, (xmin, label_ymin-7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2) # Draw label text
-
-
-            # All the results have been drawn on the frame, so it's time to display it.
-            cv2.imshow('Object detector', frame)            
-
-            # Press 'x' on window to quit
-            if cv2.getWindowProperty('Object detector', 0) < 0:
-                break
+			
+            print(self.objectFound)			
