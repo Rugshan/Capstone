@@ -120,7 +120,7 @@ try:
 
                     # ADD OBJECT DETECTION FUNCTION
                     from object_detection import TFLite_callable_webcam_display
-                    fetch_object_detection = TFLite_callable_webcam.ObjectDetection()
+                    fetch_object_detection = TFLite_callable_webcam_display.ObjectDetection()
                     fetch_object_detection.start(recog_list[1])
                 
                 # Follow Program
