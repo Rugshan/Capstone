@@ -59,7 +59,7 @@ class ObjectDetection:
         self.min_conf_threshold = 0.6
         resW= 1280
         resH = 720
-        imW, imH = int(resW), int(resH)
+        self.imW, self.imH = int(resW), int(resH)
         use_TPU = 0
         self.look = True
 		
@@ -122,7 +122,7 @@ class ObjectDetection:
 
 
         # Initialize video stream
-        self.videostream = VideoStream(resolution=(imW,imH),framerate=30).start()
+        self.videostream = VideoStream(resolution=(self.imW,self.imH),framerate=30).start()
         time.sleep(1)
 		
     def start(self, obj):
@@ -168,10 +168,10 @@ class ObjectDetection:
             for i in range(len(scores)):
                 if ((scores[i] > self.min_conf_threshold) and (scores[i] <= 1.0) and (self.TARGET=="NA" or (self.TARGET==self.labels[int(classes[i])]))):
                     self.objectFound = True
-                    ymin = int(max(1,(boxes[i][0] * imH)))
-                    xmin = int(max(1,(boxes[i][1] * imW)))
-                    ymax = int(min(imH,(boxes[i][2] * imH)))
-                    xmax = int(min(imW,(boxes[i][3] * imW)))
+                    ymin = int(max(1,(boxes[i][0] * self.imH)))
+                    xmin = int(max(1,(boxes[i][1] * self.imW)))
+                    ymax = int(min(self.imH,(boxes[i][2] * self.imH)))
+                    xmax = int(min(self.imW,(boxes[i][3] * self.imW)))
             
                     cv2.rectangle(frame, (xmin,ymin), (xmax,ymax), (10, 255, 0), 2)
 
