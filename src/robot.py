@@ -119,8 +119,9 @@ try:
                     print(f"Fetching '{recog_list[1]}'...")
 
                     # ADD OBJECT DETECTION FUNCTION
-                        # Also add fetching function.
-                        # pass recog_list[2] as object name
+                    from object_detection import TFLite_callable_webcam
+                    fetch_object_detection = TFLite_callable_webcam.ObjectDetection()
+                    fetch_object_detection.start(recog_list[1])
                 
                 # Follow Program
                 if recog_list[0] == 'follow':
