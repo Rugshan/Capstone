@@ -187,6 +187,6 @@ class ObjectDetection:
             # All the results have been drawn on the frame, so it's time to display it.
             cv2.imshow('Object detector', frame)            
 
-            # Press 'q' to quit
-            if cv2.waitKey(1) == ord('q'):
+            # Press 'x' on window to quit
+            if cv2.getWindowProperty('Object detector', 0) < 0:
                 break
