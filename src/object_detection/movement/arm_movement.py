@@ -6,6 +6,9 @@ import time
 IN1 = 20
 IN2 = 21
 ENA = 16
+#IN1 = 19
+#IN2 = 26
+#ENA = 13
 
 #Set the GPIO port to BCM encoding mode.
 GPIO.setmode(GPIO.BCM)
