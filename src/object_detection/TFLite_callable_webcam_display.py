@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 import os
 import argparse
 import cv2
@@ -169,4 +170,15 @@ class ObjectDetection:
                 if ((scores[i] > self.min_conf_threshold) and (scores[i] <= 1.0) and (self.TARGET=="NA" or (self.TARGET==self.labels[int(classes[i])]))):
                     self.objectFound = True
 			
-            print(self.objectFound)			
+            print(self.objectFound)		
+
+            from object_detection.ultrasensor.ultrasonic import distance
+
+            if(float(distance()) < float(7)):
+                print('Near object')
+                break
+            else:
+                print('Moving')
+                from object_detection.movement.motor_controls import run
+                run(1)
+

@@ -10,14 +10,15 @@ IN4 = 26
 ENA = 16
 ENB = 13
 
-#Set the GPIO port to BCM encoding mode
-GPIO.setmode(GPIO.BCM)
-
-#Ignore warning information
-GPIO.setwarnings(False)
-
 #Motor pin initialization operation
 def motor_init():
+
+    #Set the GPIO port to BCM encoding mode
+    GPIO.setmode(GPIO.BCM)
+
+    #Ignore warning information
+    GPIO.setwarnings(False)
+
     global pwm_ENA
     global pwm_ENB
     global delaytime
@@ -35,6 +36,7 @@ def motor_init():
 
 #advance
 def run(delaytime):
+    motor_init()
     GPIO.output(IN1, GPIO.HIGH)
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.HIGH)
@@ -42,9 +44,11 @@ def run(delaytime):
     pwm_ENA.ChangeDutyCycle(10)
     pwm_ENB.ChangeDutyCycle(10)
     time.sleep(delaytime)
+    brake()
 
 #back
 def back(delaytime):
+    motor_init()
     GPIO.output(IN1, GPIO.LOW)
     GPIO.output(IN2, GPIO.HIGH)
     GPIO.output(IN3, GPIO.LOW)
@@ -52,9 +56,11 @@ def back(delaytime):
     pwm_ENA.ChangeDutyCycle(10)
     pwm_ENB.ChangeDutyCycle(10)
     time.sleep(delaytime)
+    brake()
 
 #turn left
 def left(delaytime):
+    motor_init()
     GPIO.output(IN1, GPIO.LOW)
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.HIGH)
@@ -62,9 +68,11 @@ def left(delaytime):
     pwm_ENA.ChangeDutyCycle(10)
     pwm_ENB.ChangeDutyCycle(10)
     time.sleep(delaytime)
+    brake()
 
 #turn right
 def right(delaytime):
+    motor_init()
     GPIO.output(IN1, GPIO.HIGH)
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.LOW)
@@ -72,9 +80,11 @@ def right(delaytime):
     pwm_ENA.ChangeDutyCycle(10)
     pwm_ENB.ChangeDutyCycle(10)
     time.sleep(delaytime)
+    brake()
 
 #turn left in place
 def spin_left(delaytime):
+    motor_init()
     GPIO.output(IN1, GPIO.LOW)
     GPIO.output(IN2, GPIO.HIGH)
     GPIO.output(IN3, GPIO.HIGH)
@@ -82,9 +92,11 @@ def spin_left(delaytime):
     pwm_ENA.ChangeDutyCycle(10)
     pwm_ENB.ChangeDutyCycle(10)
     time.sleep(delaytime)
+    brake()
 
 #turn right in place
 def spin_right(delaytime):
+    motor_init()
     GPIO.output(IN1, GPIO.HIGH)
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.LOW)
@@ -92,37 +104,38 @@ def spin_right(delaytime):
     pwm_ENA.ChangeDutyCycle(10)
     pwm_ENB.ChangeDutyCycle(10)
     time.sleep(delaytime)
+    brake()
 
 #brake
-def brake(delaytime):
+def brake():
     GPIO.output(IN1, GPIO.LOW)
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.LOW)
     GPIO.output(IN4, GPIO.LOW)
     pwm_ENA.ChangeDutyCycle(10)
     pwm_ENB.ChangeDutyCycle(10)
-    time.sleep(delaytime)
+    pwm_ENA.stop()
+    pwm_ENB.stop()
+    GPIO.cleanup() 
 
-#Delay 2s
-time.sleep(2)
+# #Delay 2s
+# time.sleep(2)
 
-#The try/except statement is used to detect errors in the try block.
-#the except statement catches the exception information and processes it.
-#The robot car advance 1s，back 1s，turn left 2s，turn right 2s，turn left  in place 3s
-#turn right  in place 3s，stop 1s。
-try:
-    motor_init()
-    while True:
-        run(1)
-        back(1)
-        left(2)
-        right(2)
-        spin_left(3)
-        spin_right(3)
-        brake(1)
-except KeyboardInterrupt:
-    pass
-pwm_ENA.stop()
-pwm_ENB.stop()
-GPIO.cleanup() 
+# #The try/except statement is used to detect errors in the try block.
+# #the except statement catches the exception information and processes it.
+# #The robot car advance 1s，back 1s，turn left 2s，turn right 2s，turn left  in place 3s
+# #turn right  in place 3s，stop 1s。
+# try:
+#     motor_init()
+#     while True:
+#        # run(1)
+#          back(1)
+# #         left(2)
+# #         right(2)
+# #         spin_left(3)
+# #         spin_right(3)
+# #         brake(1)
+# except KeyboardInterrupt:
+#     pass
+
 

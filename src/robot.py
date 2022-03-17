@@ -77,7 +77,7 @@ try:
 
     # Google SR
     with speech as source:
-        audio = r.adjust_for_ambient_noise(source)
+        audio = r.adjust_for_ambient_noise(source, 2)
     listening = False
 
     # Prompt
