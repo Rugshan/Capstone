@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 import os
 import argparse
 import cv2
@@ -125,11 +124,20 @@ class ObjectDetection:
         # Initialize video stream
         self.videostream = VideoStream(resolution=(self.imW,self.imH),framerate=30).start()
         time.sleep(1)
-		
+	
+    # This is where movement will be called when object is found	
     def start(self, obj):
-        # Start the thread that reads frames from the video streams
+        # Start the thread that searches for objects
         self.TARGET = obj
         Thread(target=self.search,args=()).start()
+		
+		#Check if object has been found
+        found = self.searchResults()
+        while(!found):
+            found = self.searchResults()
+        
+		#Run movement if object found
+        self.runRobot()
         return self
 	
     def stop(self):
@@ -138,7 +146,17 @@ class ObjectDetection:
 		
     def searchResults(self):
         return self.objectFound
-	
+
+    def runRobot(self):
+         from object_detection.ultrasensor.ultrasonic import distance
+         if(float(distance()) < float(7)):
+            print('Near object')
+            break
+         else:
+            print('Moving')
+            from object_detection.movement.motor_controls import run
+            run(1)
+		
     def search(self):
         while (self.look):
 
@@ -170,15 +188,4 @@ class ObjectDetection:
                 if ((scores[i] > self.min_conf_threshold) and (scores[i] <= 1.0) and (self.TARGET=="NA" or (self.TARGET==self.labels[int(classes[i])]))):
                     self.objectFound = True
 			
-            print(self.objectFound)		
-
-            from object_detection.ultrasensor.ultrasonic import distance
-
-            if(float(distance()) < float(7)):
-                print('Near object')
-                break
-            else:
-                print('Moving')
-                from object_detection.movement.motor_controls import run
-                run(1)
-
+            print(self.objectFound)			
