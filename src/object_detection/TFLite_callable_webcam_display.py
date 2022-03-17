@@ -127,17 +127,26 @@ class ObjectDetection:
 	
     # This is where movement will be called when object is found	
     def start(self, obj):
+        
         # Start the thread that searches for objects
         self.TARGET = obj
-        Thread(target=self.search,args=()).start()
+        self_thread = Thread(target=self.search,args=())
+        self_thread.start()
 		
 		#Check if object has been found
         found = self.searchResults()
-        while(!found):
+        while(not found):
+            
+            # try:
             found = self.searchResults()
+
+            # except KeyboardInterrupt:
+            # print("KeyboardInterrupt at start()")
         
 		#Run movement if object found
         self.runRobot()
+        self.videostream.stop()
+        ObjectDetection.stop(self)
         return self
 	
     def stop(self):
@@ -148,17 +157,27 @@ class ObjectDetection:
         return self.objectFound
 
     def runRobot(self):
-         from object_detection.ultrasensor.ultrasonic import distance
-         if(float(distance()) < float(7)):
-            print('Near object')
-            break
-         else:
-            print('Moving')
-            from object_detection.movement.motor_controls import run
-            run(1)
+
+        # from src.object_detection.ultrasensor.ultrasonic import distance 
+        from object_detection.ultrasensor.ultrasonic import distance
+
+        while(True):
+
+            current_distance = distance()
+
+            if(current_distance < 20):
+                print('Near object')
+                break
+            else:
+                print(f'Moving, distance = {current_distance}')
+                # from src.object_detection.movement.motor_controls import run
+                from object_detection.movement.motor_controls import run
+                run(1)
 		
     def search(self):
         while (self.look):
+
+            # try:
 
             # Grab frame from video stream
             frame1 = self.videostream.read()
@@ -187,5 +206,8 @@ class ObjectDetection:
             for i in range(len(scores)):
                 if ((scores[i] > self.min_conf_threshold) and (scores[i] <= 1.0) and (self.TARGET=="NA" or (self.TARGET==self.labels[int(classes[i])]))):
                     self.objectFound = True
-			
-            print(self.objectFound)			
+            
+            print(self.objectFound)	
+
+            # except KeyboardInterrupt:
+            #     print("KeyboardInterrupt at search()")
