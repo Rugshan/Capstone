@@ -141,6 +141,18 @@ try:
                     from utilities import save_photo
                     save_photo.save_photo()
 
+                # Close Arm
+                if recog_list[0] == 'close':
+                    from object_detection.movement.arm_movement import close
+                    print('Closing arm...')
+                    close()
+
+                # Open Arm
+                if recog_list[0] == 'open':
+                    from object_detection.movement.arm_movement import open
+                    print('Opening arm...')
+                    open()
+
                 print("\nListening for wake-word...")
             
             except sr.UnknownValueError:
