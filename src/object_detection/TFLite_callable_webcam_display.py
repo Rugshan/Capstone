@@ -168,7 +168,7 @@ class ObjectDetection:
 
             current_distance = distance()
 
-            if((current_distance < 20) and (opened == False)):
+            if((current_distance < 21) and (opened == False)):
                 print(f'Close to object: distance = {current_distance}')
                 open()
                 opened = True
