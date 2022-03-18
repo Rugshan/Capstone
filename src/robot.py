@@ -153,6 +153,31 @@ try:
                     print('Opening arm...')
                     open()
 
+                # Reverse
+                if recog_list[0] == 'reverse' or recog_list[0] == 'back':
+                    from object_detection.movement.motor_controls import back
+                    print('Reversing...')
+                    back(2)
+
+                # Forward
+                if recog_list[0] == 'forward' or recog_list[0] == 'move':
+                    from object_detection.movement.motor_controls import run
+                    print('Going forward...')
+                    run(2)
+
+                # Turn Left
+                if (recog_list[0] == 'turn' or recog_list[0] == 'spin') and recog_list[1] == 'left':
+                    from object_detection.movement.motor_controls import spin_left
+                    print('Turning left...')
+                    spin_left(3)
+
+
+                # Turn Right
+                if (recog_list[0] == 'turn' or recog_list[0] == 'spin') and recog_list[1] == 'right':
+                    from object_detection.movement.motor_controls import spin_right
+                    print('Turning right...')
+                    spin_right(3)
+
                 print("\nListening for wake-word...")
             
             except sr.UnknownValueError:
