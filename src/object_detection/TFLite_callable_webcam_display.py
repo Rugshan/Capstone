@@ -160,13 +160,22 @@ class ObjectDetection:
 
         # from src.object_detection.ultrasensor.ultrasonic import distance 
         from object_detection.ultrasensor.ultrasonic import distance
+        from object_detection.movement.arm_movement import open, close
 
-        while(True):
+        opened = False
+
+        while(True):       
 
             current_distance = distance()
 
-            if(current_distance < 20):
-                print('Near object')
+            if((current_distance < 20) and (opened == False)):
+                print(f'Close to object: distance = {current_distance}')
+                open()
+                opened = True
+
+            elif(current_distance < 7):
+                print(f'Around object: distance = {current_distance}')
+                close()
                 break
             else:
                 print(f'Moving, distance = {current_distance}')

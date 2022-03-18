@@ -3,70 +3,63 @@ import RPi.GPIO as GPIO
 import time
 
 #Definition of  motor pin 
-IN1 = 20
-IN2 = 21
-ENA = 16
-#IN1 = 19
-#IN2 = 26
-#ENA = 13
+IN1 = 22
+IN2 = 27
+ENA = 24
 
-#Set the GPIO port to BCM encoding mode.
-GPIO.setmode(GPIO.BCM)
-
-#Ignore warning information
-GPIO.setwarnings(False)
 
 #Motor pin initialization operation
 def motor_init():
+
+    #Set the GPIO port to BCM encoding mode.
+    GPIO.setmode(GPIO.BCM)
+
+    #Ignore warning information
+    GPIO.setwarnings(False)
+
     global pwm_ENA
     #global pwm_ENB
     GPIO.setup(ENA,GPIO.OUT,initial=GPIO.HIGH)
     GPIO.setup(IN1,GPIO.OUT,initial=GPIO.LOW)
     GPIO.setup(IN2,GPIO.OUT,initial=GPIO.LOW)
-    #GPIO.setup(ENB,GPIO.OUT,initial=GPIO.HIGH)
-    #GPIO.setup(IN3,GPIO.OUT,initial=GPIO.LOW)
-    #GPIO.setup(IN4,GPIO.OUT,initial=GPIO.LOW)
+
     #Set the PWM pin and frequency is 2000hz
     pwm_ENA = GPIO.PWM(ENA, 2000)
-    #pwm_ENB = GPIO.PWM(ENB, 2000)
 
 #open
 def open():
+
+    #Init
+    motor_init()
+
     GPIO.output(IN1, GPIO.HIGH)
-    #GPIO.output(IN2, GPIO.LOW)
-    #GPIO.output(IN3, GPIO.HIGH)
-    #GPIO.output(IN4, GPIO.LOW)
+
     #PWM duty cycle is set to 100（0--100）
     pwm_ENA.start(50)
-    time.sleep(1.19)
+    time.sleep(0.65)
     GPIO.output(IN1, GPIO.LOW)
-    #pwm_ENB.start(50)
+    off()
     
 #close
 def close():
+    
+    # Init
+    motor_init()
+
     #GPIO.output(IN1, GPIO.HIGH)
     GPIO.output(IN2, GPIO.HIGH)
-    #GPIO.output(IN3, GPIO.HIGH)
-    #GPIO.output(IN4, GPIO.LOW)
+
     #PWM duty cycle is set to 100（0--100）
     pwm_ENA.start(50)
-    time.sleep(1.19)
+    time.sleep(1)
     GPIO.output(IN2, GPIO.LOW)
-    #pwm_ENB.start(50)
-#delay 1s
-time.sleep(1)
+    off()
 
-#The try/except statement is used to detect errors in the try block.
-#the except statement catches the exception information and processes it.
-try:
-    motor_init()
-    #while True:
-    open()
-    #close()
-        
-except KeyboardInterrupt:
-    pass
-pwm_ENA.stop()
-#pwm_ENB.stop()
-GPIO.cleanup()
+# Stop and cleanup.
+def off():
+
+    pwm_ENA.stop()
+    GPIO.cleanup()
+
+
 
