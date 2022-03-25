@@ -11,6 +11,11 @@ import importlib.util
 # Source - Adrian Rosebrock, PyImageSearch: https://www.pyimagesearch.com/2015/12/28/increasing-raspberry-pi-fps-with-python-and-opencv/
 TIMEOUT = 10
 TIMEOUT_360 = 30
+LONGLEFT = 0.5
+LONGRIGHT = 0.5
+LEFT = 0.1
+RIGHT = 0.1
+CENTRETHRESHOLD = 0.05
 class VideoStream:
     """Camera object that controls video streaming from the Picamera"""
     def __init__(self,resolution=(640,480),framerate=30):
@@ -165,13 +170,13 @@ class ObjectDetection:
         from object_detection.movement.motor_controls import spin_right, spin_left 
         while(self.side != "centre"):
 	        if(self.side == "fullright"):
-	            spin_right(1)
+	            spin_right(LONGRIGHT)
 	        elif(self.side == "fullleft"):
-	            spin_left(1)
+	            spin_left(LONGLEFT)
 	        elif(self.side == "right"):
-	            spin_right(0.5)	
+	            spin_right(RIGHT)	
 	        elif(self.side == "left"):
-	            spin_left(0.5)					
+	            spin_left(LEFT)					
 	
     def stop(self):
         self.objectFound = False
@@ -266,7 +271,7 @@ class ObjectDetection:
                     elif(rightArea < 0):
                         rightArea = 0
                         self.side = "fullleft"
-                    elif(leftArea/rightArea > 0.95 and leftArea/rightArea < 1.05):
+                    elif(leftArea/rightArea > (1-CENTRETHRESHOLD) and leftArea/rightArea < (1+CENTRETHRESHOLD)):
                         self.side = "centre"
                     elif (leftArea > rightArea):
                         self.side = "left"
