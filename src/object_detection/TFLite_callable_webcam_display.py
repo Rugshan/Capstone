@@ -187,7 +187,7 @@ class ObjectDetection:
 
             current_distance = distance()
 
-            if((current_distance < 21) and (opened == False)):
+            if((current_distance < 22) and (opened == False)):
                 print(f'Close to object: distance = {current_distance}')
                 open()
                 opened = True
@@ -195,15 +195,17 @@ class ObjectDetection:
             elif(current_distance < 7):
                 print(f'Around object: distance = {current_distance}')
                 close()
+                close()
                 break
             else:
                 print(f'Moving, distance = {current_distance}')
                 # from src.object_detection.movement.motor_controls import run
                 from object_detection.movement.motor_controls import run
                 counter += 1
-                run(1)
+                run(0.7)
 
-        for i in range(counter)
+        for i in range(counter):
+            from object_detection.movement.motor_controls import back
             back(1)
 
     def search(self):
