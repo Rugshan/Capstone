@@ -129,7 +129,7 @@ class ObjectDetection:
 	
     # This is where movement will be called when object is found	
     def start(self, obj):
-        timeout = False
+        isTimeout = False
         # Start the thread that searches for objects
         self.TARGET = obj
         if(self.labels.count(self.TARGET) > 0):
@@ -147,11 +147,11 @@ class ObjectDetection:
                     # except KeyboardInterrupt:
                     # print("KeyboardInterrupt at start()")
                 else:
-                    timeout = True
+                    isTimeout = True
                     break
 					
 		    #Run movement if object found and not timeout
-            if(not timeout):
+            if(not isTimeout):
                 self.runRobot()
 				
 			#close streams	
