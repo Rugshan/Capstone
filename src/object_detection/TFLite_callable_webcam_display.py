@@ -124,7 +124,7 @@ class ObjectDetection:
 
 
         # Initialize video stream
-        self.videostream = VideoStream(resolution=(self.imW,self.imH),framerate=30).start()
+        
         time.sleep(1)
 	
     # This is where movement will be called when object is found	
@@ -133,6 +133,7 @@ class ObjectDetection:
         # Start the thread that searches for objects
         self.TARGET = obj
         if(self.labels.count(self.TARGET) > 0):
+            self.videostream = VideoStream(resolution=(self.imW,self.imH),framerate=30).start()
             self_thread = Thread(target=self.search,args=())
             startTime = time.perf_counter()
             self_thread.start()
@@ -141,7 +142,10 @@ class ObjectDetection:
             found = self.searchResults()
             while(not found):
                 if(time.perf_counter()-startTime < TIMEOUT ):
-                    # try:
+                    # IF NOT TIMED OUT and object not found, SPIN IN ONE DIRECTION
+                        # spin right for x amount of time
+						
+                    # check if object found yet:
                     found = self.searchResults()
 
                     # except KeyboardInterrupt:
@@ -152,13 +156,16 @@ class ObjectDetection:
 					
 		    #Run movement if object found and not timeout
             if(not isTimeout):
+                # run alignment
                 self.runRobot()
 				
 			#close streams
             ObjectDetection.stop(self)		
-			
-        self.videostream.stop()   
+            self.videostream.stop()   
         return self
+	
+	#def align(self):
+        #check if object is on the left or right frame
 	
     def stop(self):
         self.objectFound = False
