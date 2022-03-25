@@ -9,6 +9,8 @@ import importlib.util
 
 # Define VideoStream class to handle streaming of video from webcam in separate processing thread
 # Source - Adrian Rosebrock, PyImageSearch: https://www.pyimagesearch.com/2015/12/28/increasing-raspberry-pi-fps-with-python-and-opencv/
+TIMEOUT = 10
+TIMEOUT_360 = 20
 class VideoStream:
     """Camera object that controls video streaming from the Picamera"""
     def __init__(self,resolution=(640,480),framerate=30):
@@ -127,27 +129,35 @@ class ObjectDetection:
 	
     # This is where movement will be called when object is found	
     def start(self, obj):
-        
+        timeout = False
         # Start the thread that searches for objects
         self.TARGET = obj
-        self_thread = Thread(target=self.search,args=())
-        self_thread.start()
+        if(self.labels.count(self.TARGET) > 0):
+            self_thread = Thread(target=self.search,args=())
+            startTime = time.perf_counter()
+            self_thread.start()
 		
-		#Check if object has been found
-        found = self.searchResults()
-        while(not found):
-            
-            # try:
+		    #Check if object has been found
             found = self.searchResults()
+            while(not found):
+                if(time.perf_counter()-startTime < TIMEOUT ):
+                    # try:
+                    found = self.searchResults()
 
-            # except KeyboardInterrupt:
-            # print("KeyboardInterrupt at start()")
-        
-		#Run movement if object found
-        self.runRobot()
-        self.videostream.stop()
-        ObjectDetection.stop(self)
-        return self
+                    # except KeyboardInterrupt:
+                    # print("KeyboardInterrupt at start()")
+                else:
+                    timeout = True
+                    break
+					
+		    #Run movement if object found and not timeout
+            if(not timeout):
+                self.runRobot()
+				
+			#close streams	
+            self.videostream.stop()
+            ObjectDetection.stop(self)
+            return self
 	
     def stop(self):
         self.objectFound = False
