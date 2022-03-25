@@ -26,9 +26,9 @@ elif platform == "Raspberry Pi":
 
 # Close Arm
 from object_detection.movement.arm_movement import close
-    print('Closing arm...')
-    close()
-    close()
+print('Closing arm...')
+close()
+close()
     
 # Porcupine/PyAudio Variables
 porcupine = None
@@ -174,14 +174,14 @@ try:
                 if (recog_list[0] == 'turn' or recog_list[0] == 'spin') and recog_list[1] == 'left':
                     from object_detection.movement.motor_controls import spin_left
                     print('Turning left...')
-                    spin_left(3)
+                    spin_left(7)
 
 
                 # Turn Right
                 if (recog_list[0] == 'turn' or recog_list[0] == 'spin') and recog_list[1] == 'right':
                     from object_detection.movement.motor_controls import spin_right
                     print('Turning right...')
-                    spin_right(3)
+                    spin_right(7)
 
                 print("\nListening for wake-word...")
             

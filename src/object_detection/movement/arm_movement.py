@@ -35,7 +35,7 @@ def open():
     GPIO.output(IN1, GPIO.HIGH)
 
     #PWM duty cycle is set to 100（0--100）
-    pwm_ENA.start(50)
+    pwm_ENA.start(40)
     time.sleep(0.65)
     GPIO.output(IN1, GPIO.LOW)
     off()
@@ -50,7 +50,7 @@ def close():
     GPIO.output(IN2, GPIO.HIGH)
 
     #PWM duty cycle is set to 100（0--100）
-    pwm_ENA.start(50)
+    pwm_ENA.start(40)
     time.sleep(1)
     GPIO.output(IN2, GPIO.LOW)
     off()
