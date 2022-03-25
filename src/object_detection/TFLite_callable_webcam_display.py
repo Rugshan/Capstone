@@ -171,7 +171,7 @@ class ObjectDetection:
 	        elif(self.side == "right"):
 	            spin_right(0.5)	
 	        elif(self.side == "left"):
-			    spin_left(0.5)					
+	            spin_left(0.5)					
 	
     def stop(self):
         self.objectFound = False
