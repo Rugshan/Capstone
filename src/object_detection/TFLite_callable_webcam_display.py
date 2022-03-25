@@ -153,7 +153,7 @@ class ObjectDetection:
 					
 		    #Run movement if object found and not timeout
             if(not isTimeout):
-                # run alignment
+                self.align()
                 self.runRobot()
 				
 			#close streams
@@ -161,11 +161,17 @@ class ObjectDetection:
             self.videostream.stop()   
         return self
 	
-	#def align(self):
-        #if(object is on right side)
-            #run spin right 
-	    #if(object is on left spin left)
-            # run spin left
+    def align(self):
+        from object_detection.movement.motor_controls import spin_right, spin_left 
+        while(self.side != "centre"):
+	        if(self.side == "fullright"):
+	            spin_right(1)
+	        elif(self.side == "fullleft"):
+	            spin_left(1)
+	        elif(self.side == "right"):
+	            spin_right(0.5)	
+	        elif(self.side == "left"):
+			    spin_left(0.5)					
 	
     def stop(self):
         self.objectFound = False
@@ -175,7 +181,7 @@ class ObjectDetection:
         return self.objectFound
     
     def spinSearch(self):
-        from object_detection.movement.motor_controls import spin_right
+        from object_detection.movement.motor_controls import spin_right 
         spin_right(3.5)	
 
 		
@@ -254,10 +260,10 @@ class ObjectDetection:
 					
                     if(leftArea < 0):
                         leftArea = 0
-                        self.side = "right"
+                        self.side = "fullright"
                     elif(rightArea < 0):
                         rightArea = 0
-                        self.side = "left"
+                        self.side = "fullleft"
                     elif(leftArea/rightArea > 0.95 and leftArea/rightArea < 1.05):
                         self.side = "centre"
                     elif (leftArea > rightArea):
