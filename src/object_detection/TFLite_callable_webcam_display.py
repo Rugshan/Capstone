@@ -10,7 +10,7 @@ import importlib.util
 # Define VideoStream class to handle streaming of video from webcam in separate processing thread
 # Source - Adrian Rosebrock, PyImageSearch: https://www.pyimagesearch.com/2015/12/28/increasing-raspberry-pi-fps-with-python-and-opencv/
 TIMEOUT = 10
-TIMEOUT_360 = 20
+TIMEOUT_360 = 30
 class VideoStream:
     """Camera object that controls video streaming from the Picamera"""
     def __init__(self,resolution=(640,480),framerate=30):
@@ -141,11 +141,8 @@ class ObjectDetection:
 		    #Check if object has been found
             found = self.searchResults()
             while(not found):
-                if(time.perf_counter()-startTime < TIMEOUT ):
-                    # IF NOT TIMED OUT and object not found, SPIN IN ONE DIRECTION
-                        # spin right for x amount of time
-						
-                    # check if object found yet:
+                if(time.perf_counter()-startTime < TIMEOUT_360 ):
+                    self.spinSearch()
                     found = self.searchResults()
 
                     # except KeyboardInterrupt:
@@ -165,7 +162,10 @@ class ObjectDetection:
         return self
 	
 	#def align(self):
-        #check if object is on the left or right frame
+        #if(object is on right side)
+            #run spin right 
+	    #if(object is on left spin left)
+            # run spin left
 	
     def stop(self):
         self.objectFound = False
@@ -173,7 +173,12 @@ class ObjectDetection:
 		
     def searchResults(self):
         return self.objectFound
+    
+    def spinSearch(self):
+        from object_detection.movement.motor_controls import spin_right
+        spin_right(3.5)	
 
+		
     def runRobot(self):
 
         # from src.object_detection.ultrasensor.ultrasonic import distance 
@@ -217,7 +222,7 @@ class ObjectDetection:
             frame1 = self.videostream.read()
 
             # Acquire frame and resize to expected shape [1xHxWx3]
-            frame = frame1.copy()
+            frame = frame1.copy() 
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             frame_resized = cv2.resize(frame_rgb, (self.width, self.height))
             input_data = np.expand_dims(frame_resized, axis=0)
@@ -240,7 +245,28 @@ class ObjectDetection:
             for i in range(len(scores)):
                 if ((scores[i] > self.min_conf_threshold) and (scores[i] <= 1.0) and (self.TARGET=="NA" or (self.TARGET==self.labels[int(classes[i])]))):
                     self.objectFound = True
-            
+					
+                    ymin = int(max(1,(boxes[i][0] * self.imH)))
+                    xmin = int(max(1,(boxes[i][1] * self.imW)))
+                    ymax = int(min(self.imH,(boxes[i][2] * self.imH)))
+                    xmax = int(min(self.imW,(boxes[i][3] * self.imW)))
+					
+                    leftArea = (ymax-ymin)*((self.imW/2.0)-xmin)
+                    rightArea = (ymax-ymin)*(xmax-(self.imW/2.))
+					
+                    if(leftArea < 0):
+                        leftArea = 0
+                        self.side = "right"
+                    elif(rightArea < 0):
+                        rightArea = 0
+                        self.side = "left"
+                    elif(leftArea/rightArea > 0.95 and leftArea/rightArea < 1.05):
+                        self.side = "centre"
+                    elif (leftArea > rightArea):
+                        self.side = "left"
+                    else:
+                        self.side = "right"
+						
             print(self.objectFound)	
 
             # except KeyboardInterrupt:
