@@ -11,11 +11,11 @@ import importlib.util
 # Source - Adrian Rosebrock, PyImageSearch: https://www.pyimagesearch.com/2015/12/28/increasing-raspberry-pi-fps-with-python-and-opencv/
 TIMEOUT = 10
 TIMEOUT_360 = 30
-LONGLEFT = 0.5
-LONGRIGHT = 0.5
-LEFT = 0.1
-RIGHT = 0.1
-CENTRETHRESHOLD = 0.05
+LONGLEFT = 0.15
+LONGRIGHT = 0.15
+LEFT = 0.15
+RIGHT = 0.15
+CENTRETHRESHOLD = 0.2
 class VideoStream:
     """Camera object that controls video streaming from the Picamera"""
     def __init__(self,resolution=(640,480),framerate=30):
