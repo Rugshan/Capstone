@@ -154,10 +154,11 @@ class ObjectDetection:
             if(not isTimeout):
                 self.runRobot()
 				
-			#close streams	
-            self.videostream.stop()
-            ObjectDetection.stop(self)
-            return self
+			#close streams
+            ObjectDetection.stop(self)		
+			
+        self.videostream.stop()   
+        return self
 	
     def stop(self):
         self.objectFound = False
