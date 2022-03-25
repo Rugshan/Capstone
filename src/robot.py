@@ -24,6 +24,12 @@ if platform == 'Ubuntu':
 elif platform == "Raspberry Pi":
     keyword_path = ['src/utilities/keywords/robot_en_raspberry-pi_v2_1_0.ppn']
 
+# Close Arm
+from object_detection.movement.arm_movement import close
+    print('Closing arm...')
+    close()
+    close()
+    
 # Porcupine/PyAudio Variables
 porcupine = None
 pa = None
@@ -82,7 +88,7 @@ try:
 
     # Prompt
     print(f"\nYour wake-word is: 'robot'.")
-    print("Say a 'robot' to start listening for commands...\n")
+    print("Say 'robot' to start listening for commands...\n")
 
     # Listen for Porcupine wake-words.
     while True:
@@ -143,7 +149,6 @@ try:
 
                 # Close Arm
                 if recog_list[0] == 'close':
-                    from object_detection.movement.arm_movement import close
                     print('Closing arm...')
                     close()
 
@@ -182,6 +187,7 @@ try:
             
             except sr.UnknownValueError:
                 print("Google Speech Recognition could not understand audio")
+                print("Say 'robot' to start listening for commands...\n")
 
             except sr.RequestError as e:
                 print("Could not request results from Google Speech Recognition service; {0}".format(e))
