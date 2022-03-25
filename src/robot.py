@@ -77,7 +77,7 @@ try:
 
     # Google SR
     with speech as source:
-        audio = r.adjust_for_ambient_noise(source)
+        audio = r.adjust_for_ambient_noise(source, 2)
     listening = False
 
     # Prompt
@@ -119,8 +119,9 @@ try:
                     print(f"Fetching '{recog_list[1]}'...")
 
                     # ADD OBJECT DETECTION FUNCTION
-                        # Also add fetching function.
-                        # pass recog_list[2] as object name
+                    from object_detection.TFLite_callable_webcam_display import ObjectDetection
+                    fetch_object_detection = ObjectDetection()
+                    fetch_object_detection.start(recog_list[1])
                 
                 # Follow Program
                 if recog_list[0] == 'follow':
@@ -139,6 +140,43 @@ try:
                     
                     from utilities import save_photo
                     save_photo.save_photo()
+
+                # Close Arm
+                if recog_list[0] == 'close':
+                    from object_detection.movement.arm_movement import close
+                    print('Closing arm...')
+                    close()
+
+                # Open Arm
+                if recog_list[0] == 'open':
+                    from object_detection.movement.arm_movement import open
+                    print('Opening arm...')
+                    open()
+
+                # Reverse
+                if recog_list[0] == 'reverse' or recog_list[0] == 'back':
+                    from object_detection.movement.motor_controls import back
+                    print('Reversing...')
+                    back(2)
+
+                # Forward
+                if recog_list[0] == 'forward' or recog_list[0] == 'move':
+                    from object_detection.movement.motor_controls import run
+                    print('Going forward...')
+                    run(2)
+
+                # Turn Left
+                if (recog_list[0] == 'turn' or recog_list[0] == 'spin') and recog_list[1] == 'left':
+                    from object_detection.movement.motor_controls import spin_left
+                    print('Turning left...')
+                    spin_left(3)
+
+
+                # Turn Right
+                if (recog_list[0] == 'turn' or recog_list[0] == 'spin') and recog_list[1] == 'right':
+                    from object_detection.movement.motor_controls import spin_right
+                    print('Turning right...')
+                    spin_right(3)
 
                 print("\nListening for wake-word...")
             
