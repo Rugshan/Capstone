@@ -162,6 +162,7 @@ class ObjectDetection:
         from object_detection.ultrasensor.ultrasonic import distance
         from object_detection.movement.arm_movement import open, close
 
+        counter = 0
         opened = False
 
         while(True):       
@@ -181,8 +182,12 @@ class ObjectDetection:
                 print(f'Moving, distance = {current_distance}')
                 # from src.object_detection.movement.motor_controls import run
                 from object_detection.movement.motor_controls import run
+                counter += 1
                 run(1)
-		
+
+        for i in range(counter)
+            back(1)
+
     def search(self):
         while (self.look):
 
