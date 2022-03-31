@@ -168,15 +168,22 @@ class ObjectDetection:
 	
     def align(self):
         from object_detection.movement.motor_controls import spin_right, spin_left 
+        
         while(self.side != "centre"):
-	        if(self.side == "fullright"):
-	            spin_right(LONGRIGHT)
-	        elif(self.side == "fullleft"):
-	            spin_left(LONGLEFT)
-	        elif(self.side == "right"):
-	            spin_right(RIGHT)	
-	        elif(self.side == "left"):
-	            spin_left(LEFT)					
+
+            if(self.side == "fullright"):
+                spin_right(LONGRIGHT)
+
+            elif(self.side == "fullleft"):
+                spin_left(LONGLEFT)
+
+            elif(self.side == "right"):
+                spin_right(RIGHT)
+
+            elif(self.side == "left"):
+                spin_left(LEFT)
+
+            time.sleep(0.2)				
 	
     def stop(self):
         self.objectFound = False
@@ -251,7 +258,9 @@ class ObjectDetection:
             classes = self.interpreter.get_tensor(self.output_details[1]['index'])[0] # Class index of detected objects
             scores = self.interpreter.get_tensor(self.output_details[2]['index'])[0] # Confidence of detected objects
             #num = interpreter.get_tensor(output_details[3]['index'])[0]  # Total number of detected objects (inaccurate and not needed)
-
+            leftArea=0
+            rightArea=0.1
+            ratio = 0
             # Loop over all detections and draw detection box if confidence is above minimum threshold
             for i in range(len(scores)):
                 if ((scores[i] > self.min_conf_threshold) and (scores[i] <= 1.0) and (self.TARGET=="NA" or (self.TARGET==self.labels[int(classes[i])]))):
@@ -272,6 +281,7 @@ class ObjectDetection:
                         rightArea = 0
                         self.side = "fullleft"
                     elif(leftArea/rightArea > (1-CENTRETHRESHOLD) and leftArea/rightArea < (1+CENTRETHRESHOLD)):
+                        ratio = leftArea/rightArea
                         self.side = "centre"
                     elif (leftArea > rightArea):
                         self.side = "left"
@@ -282,7 +292,7 @@ class ObjectDetection:
                     cv2.rectangle(frame, (xmin,ymin), (xmax,ymax), (10, 255, 0), 2)
 
                     # Draw label
-                    object_name = labels[int(classes[i])] # Look up object name from "labels" array using class index
+                    object_name = self.labels[int(classes[i])] # Look up object name from "labels" array using class index
                     label = '%s: %f%%' % (object_name, int(scores[i]*100)) # Example: 'person: 72%'
                     labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2) # Get font size
                     label_ymin = max(ymin, labelSize[1] + 10) # Make sure not to draw label too close to top of window
@@ -291,7 +301,7 @@ class ObjectDetection:
 			
             cv2.imshow('Object detector', frame)			
             print(self.objectFound)
-            print(leftArea/rightArea)			
+            print(ratio)			
 
             # except KeyboardInterrupt:
             #     print("KeyboardInterrupt at search()")
