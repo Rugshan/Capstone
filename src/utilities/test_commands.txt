@@ -1,0 +1,21 @@
+# Ultrasonic Sensor
+cd Capstone /
+python3
+from src.object_detection.ultrasensor.ultrasonic import distance
+distance()
+
+# Arm
+cd Capstone/
+python3
+from src.object_detection.movement.arm_movement import *
+open() or close()
+
+# Lift
+cd Capstone/
+python3
+from src.object_detection.movement.lift_servo import *
+
+# Camera
+cd Capstone/
+python3
+from src.object_detection.movement.camera_motors import *
