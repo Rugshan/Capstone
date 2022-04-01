@@ -210,12 +210,12 @@ class ObjectDetection:
 
             current_distance = distance()
 
-            if((current_distance < 22) and (opened == False)):
+            if((current_distance < 25) and (opened == False)):
                 print(f'Close to object: distance = {current_distance}')
                 open()
                 opened = True
 
-            elif(current_distance < 7):
+            elif(current_distance < 8.2):
                 print(f'Around object: distance = {current_distance}')
                 close()
                 close()
