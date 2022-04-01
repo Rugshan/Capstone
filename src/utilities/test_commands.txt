@@ -18,4 +18,4 @@ from src.object_detection.movement.lift_servo import *
 # Camera
 cd Capstone/
 python3
-from src.object_detection.movement.camera_motors import *
+from src.object_detection.movement.camera_servos import *

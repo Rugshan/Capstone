@@ -58,30 +58,6 @@ def back(delaytime):
     time.sleep(delaytime)
     brake()
 
-#turn left
-def left(delaytime):
-    motor_init()
-    GPIO.output(IN1, GPIO.LOW)
-    GPIO.output(IN2, GPIO.LOW)
-    GPIO.output(IN3, GPIO.HIGH)
-    GPIO.output(IN4, GPIO.LOW)
-    pwm_ENA.ChangeDutyCycle(10)
-    pwm_ENB.ChangeDutyCycle(10)
-    time.sleep(delaytime)
-    brake()
-
-#turn right
-def right(delaytime):
-    motor_init()
-    GPIO.output(IN1, GPIO.HIGH)
-    GPIO.output(IN2, GPIO.LOW)
-    GPIO.output(IN3, GPIO.LOW)
-    GPIO.output(IN4, GPIO.LOW)
-    pwm_ENA.ChangeDutyCycle(10)
-    pwm_ENB.ChangeDutyCycle(10)
-    time.sleep(delaytime)
-    brake()
-
 #turn left in place
 def spin_left(delaytime):
     motor_init()
@@ -114,4 +90,4 @@ def brake():
     GPIO.output(IN4, GPIO.LOW)
     pwm_ENA.stop()
     pwm_ENB.stop()
-    GPIO.cleanup() 
+    GPIO.cleanup()
