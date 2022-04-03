@@ -24,12 +24,16 @@ if platform == 'Ubuntu':
 elif platform == "Raspberry Pi":
     keyword_path = ['src/utilities/keywords/robot_en_raspberry-pi_v2_1_0.ppn']
 
+
 # Close Arm
-from object_detection.movement.arm_movement import close
+from object_detection.movement.arm_movement import close as arm_close
 print('Closing arm...')
-close()
-close()
-    
+arm_close()
+
+# # Default camera pos.
+# from object_detection.movement.camera_servos import default_pos as camera_default_pos
+# camera_default_pos()
+
 # Porcupine/PyAudio Variables
 porcupine = None
 pa = None
@@ -150,7 +154,7 @@ try:
                 # Close Arm
                 if recog_list[0] == 'close':
                     print('Closing arm...')
-                    close()
+                    arm_close()
 
                 # Open Arm
                 if recog_list[0] == 'open':
@@ -174,14 +178,14 @@ try:
                 if (recog_list[0] == 'turn' or recog_list[0] == 'spin') and recog_list[1] == 'left':
                     from object_detection.movement.motor_controls import spin_left
                     print('Turning left...')
-                    spin_left(7)
+                    spin_left(3)
 
 
                 # Turn Right
                 if (recog_list[0] == 'turn' or recog_list[0] == 'spin') and recog_list[1] == 'right':
                     from object_detection.movement.motor_controls import spin_right
                     print('Turning right...')
-                    spin_right(7)
+                    spin_right(3)
 
                 print("\nListening for wake-word...")
             

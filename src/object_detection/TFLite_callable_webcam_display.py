@@ -134,7 +134,10 @@ class ObjectDetection:
 	
     # This is where movement will be called when object is found	
     def start(self, obj):
+
+        # Timeout boolean.
         isTimeout = False
+
         # Start the thread that searches for objects
         self.TARGET = obj
         if(self.labels.count(self.TARGET) > 0):
@@ -143,6 +146,10 @@ class ObjectDetection:
             startTime = time.perf_counter()
             self_thread.start()
 		
+            # Lift arm prior to search.
+            from object_detection.movement.lift_servo import up as lift_up, down as lift_down
+            lift_up()
+
 		    #Check if object has been found
             found = self.searchResults()
             while(not found):
@@ -153,7 +160,11 @@ class ObjectDetection:
                     # except KeyboardInterrupt:
                     # print("KeyboardInterrupt at start()")
                 else:
+                    
                     isTimeout = True
+
+                    # Lower arm after failed search.
+                    lift_down()
                     break
 					
 		    #Run movement if object found and not timeout
@@ -199,37 +210,45 @@ class ObjectDetection:
 		
     def runRobot(self):
 
-        # from src.object_detection.ultrasensor.ultrasonic import distance 
         from object_detection.ultrasensor.ultrasonic import distance
-        from object_detection.movement.arm_movement import open, close
+        from object_detection.movement.lift_servo import up as lift_up, down as lift_down
+        from object_detection.movement.arm_movement import open as arm_open, close
+        from object_detection.movement.motor_controls import run, back, spin_left
 
         counter = 0
         opened = False
 
+        # Get to and pick up object
         while(True):       
 
             current_distance = distance()
 
             if((current_distance < 25) and (opened == False)):
                 print(f'Close to object: distance = {current_distance}')
-                open()
+                lift_down()
+                arm_open()
                 opened = True
 
             elif(current_distance < 8.2):
                 print(f'Around object: distance = {current_distance}')
                 close()
-                close()
+                lift_up()
                 break
             else:
                 print(f'Moving, distance = {current_distance}')
-                # from src.object_detection.movement.motor_controls import run
-                from object_detection.movement.motor_controls import run
                 counter += 1
                 run(0.7)
 
+        # Return and drop object
         for i in range(counter):
-            from object_detection.movement.motor_controls import back
             back(1)
+
+        # spin_left(6)
+        lift_down()
+        arm_open()
+        back(1.5)
+        close()
+        # spin_left(6)
 
     def search(self):
         while (self.look):
@@ -289,17 +308,17 @@ class ObjectDetection:
                         self.side = "right"
 					
 
-                    cv2.rectangle(frame, (xmin,ymin), (xmax,ymax), (10, 255, 0), 2)
+                    # cv2.rectangle(frame, (xmin,ymin), (xmax,ymax), (10, 255, 0), 2)
 
-                    # Draw label
-                    object_name = self.labels[int(classes[i])] # Look up object name from "labels" array using class index
-                    label = '%s: %f%%' % (object_name, int(scores[i]*100)) # Example: 'person: 72%'
-                    labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2) # Get font size
-                    label_ymin = max(ymin, labelSize[1] + 10) # Make sure not to draw label too close to top of window
-                    cv2.rectangle(frame, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine-10), (255, 255, 255), cv2.FILLED) # Draw white box to put label text in
-                    cv2.putText(frame, label, (xmin, label_ymin-7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2) # Draw label text
+                    # # Draw label
+                    # object_name = self.labels[int(classes[i])] # Look up object name from "labels" array using class index
+                    # label = '%s: %f%%' % (object_name, int(scores[i]*100)) # Example: 'person: 72%'
+                    # labelSize, baseLine = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2) # Get font size
+                    # label_ymin = max(ymin, labelSize[1] + 10) # Make sure not to draw label too close to top of window
+                    # cv2.rectangle(frame, (xmin, label_ymin-labelSize[1]-10), (xmin+labelSize[0], label_ymin+baseLine-10), (255, 255, 255), cv2.FILLED) # Draw white box to put label text in
+                    # cv2.putText(frame, label, (xmin, label_ymin-7), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2) # Draw label text
 			
-            cv2.imshow('Object detector', frame)			
+            # cv2.imshow('Object detector', frame)			
             print(self.objectFound)
             print(ratio)			
 
