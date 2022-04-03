@@ -3,5 +3,6 @@
 # Navigate to this directory and execute robot.py
 
 cd /home/pi/Capstone/
-python3 src/robot.py 
+sudo pigpiod
+# python3 src/robot.py 
 

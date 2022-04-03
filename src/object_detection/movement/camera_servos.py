@@ -15,8 +15,5 @@ def change_vertical(i):
 
 # Initial Position of the camera (Foward, angled down.)
 def default_pos():
-    vertical.value = math.sin(math.radians(150))
+    vertical.value = math.sin(math.radians(160))
     horizontal.max()
-
-# Call default position.
-default_pos()

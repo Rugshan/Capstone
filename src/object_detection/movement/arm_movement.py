@@ -7,7 +7,6 @@ IN1 = 22
 IN2 = 27
 ENA = 24
 
-
 #Motor pin initialization operation
 def motor_init():
 
