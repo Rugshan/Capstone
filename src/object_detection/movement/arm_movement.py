@@ -50,7 +50,7 @@ def close():
 
     #PWM duty cycle is set to 100（0--100）
     pwm_ENA.start(40)
-    time.sleep(1)
+    time.sleep(1.6)
     GPIO.output(IN2, GPIO.LOW)
     off()
 
