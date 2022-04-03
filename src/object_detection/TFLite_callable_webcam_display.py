@@ -217,6 +217,8 @@ class ObjectDetection:
 
         counter = 0
         opened = False
+        MOVE_INCREMENT = 0.3
+
 
         # Get to and pick up object
         while(True):       
@@ -229,7 +231,7 @@ class ObjectDetection:
                 arm_open()
                 opened = True
 
-            elif(current_distance < 8.2):
+            elif(current_distance < 10):
                 print(f'Around object: distance = {current_distance}')
                 close()
                 lift_up()
@@ -237,11 +239,11 @@ class ObjectDetection:
             else:
                 print(f'Moving, distance = {current_distance}')
                 counter += 1
-                run(0.7)
+                run(MOVE_INCREMENT)
 
         # Return and drop object
         for i in range(counter):
-            back(1)
+            back(MOVE_INCREMENT)
 
         # spin_left(6)
         lift_down()

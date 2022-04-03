@@ -126,12 +126,19 @@ try:
                 if recog_list[0] == 'fetch' or recog_list[0] == 'get' or recog_list[0] == 'grab':
 
                     print(f"Command '{recog_list[0]}' detected.")
-                    print(f"Fetching '{recog_list[1]}'...")
+                    
+                    if len(recog_list) < 2:
 
-                    # ADD OBJECT DETECTION FUNCTION
-                    from object_detection.TFLite_callable_webcam_display import ObjectDetection
-                    fetch_object_detection = ObjectDetection()
-                    fetch_object_detection.start(recog_list[1])
+                        print("Didn't hear an object name, try again...")
+
+                    else:
+                        
+                        print(f"Fetching '{recog_list[1]}'...")
+
+                        # ADD OBJECT DETECTION FUNCTION
+                        from object_detection.TFLite_callable_webcam_display import ObjectDetection
+                        fetch_object_detection = ObjectDetection()
+                        fetch_object_detection.start(recog_list[1])
                 
                 # Follow Program
                 if recog_list[0] == 'follow':
