@@ -75,12 +75,13 @@ Where, the access key can be obtained by creating a free account at https://pico
 ### Starting The Program
 1. `cd Capstone`
 2. `jack_control start`
-3. `python3 src/robot.py`  
+3. `python3 src/porcupine.py`  
 
 #### Current Voice Commands:
 The free Picovoice license is limits the number of custom wake-words, so the current wake words are:
-- `fetch [OBJECT_NAME]` for fetch
-- `selfie' for selfie
+- `grapefruit` for fetch
+- `terminator` for follow
+- `view glass` for selfie
    - Images are saved in `Capstone/saved_images/`
    - The *saved_images/* directory is added to .gitignore to keep it out of the repository.
 
