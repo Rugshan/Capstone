@@ -295,10 +295,10 @@ class ObjectDetection:
                     leftArea = (ymax-ymin)*((self.imW/2.0)-xmin)
                     rightArea = (ymax-ymin)*(xmax-(self.imW/2.))
 					
-                    if(leftArea < 0):
+                    if(leftArea <= 0):
                         leftArea = 0
                         self.side = "fullright"
-                    elif(rightArea < 0):
+                    elif(rightArea <= 0):
                         rightArea = 0
                         self.side = "fullleft"
                     elif(leftArea/rightArea > (1-CENTRETHRESHOLD) and leftArea/rightArea < (1+CENTRETHRESHOLD)):
