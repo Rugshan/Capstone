@@ -7,8 +7,8 @@ import time
 from threading import Thread
 import importlib.util
 
-# Define VideoStream class to handle streaming of video from webcam in separate processing thread
-# Source - Adrian Rosebrock, PyImageSearch: https://www.pyimagesearch.com/2015/12/28/increasing-raspberry-pi-fps-with-python-and-opencv/
+
+
 TIMEOUT = 10
 TIMEOUT_360 = 30
 LONGLEFT = 0.15
@@ -16,6 +16,9 @@ LONGRIGHT = 0.15
 LEFT = 0.15
 RIGHT = 0.15
 CENTRETHRESHOLD = 0.2
+
+# Define VideoStream class to handle streaming of video from webcam in separate processing thread
+# Source - Adrian Rosebrock, PyImageSearch: https://www.pyimagesearch.com/2015/12/28/increasing-raspberry-pi-fps-with-python-and-opencv/
 class VideoStream:
     """Camera object that controls video streaming from the Picamera"""
     def __init__(self,resolution=(640,480),framerate=30):
@@ -295,10 +298,10 @@ class ObjectDetection:
                     leftArea = (ymax-ymin)*((self.imW/2.0)-xmin)
                     rightArea = (ymax-ymin)*(xmax-(self.imW/2.))
 					
-                    if(leftArea < 0):
+                    if(leftArea <= 0):
                         leftArea = 0
                         self.side = "fullright"
-                    elif(rightArea < 0):
+                    elif(rightArea <= 0):
                         rightArea = 0
                         self.side = "fullleft"
                     elif(leftArea/rightArea > (1-CENTRETHRESHOLD) and leftArea/rightArea < (1+CENTRETHRESHOLD)):
