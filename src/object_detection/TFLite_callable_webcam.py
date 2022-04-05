@@ -9,8 +9,6 @@ import importlib.util
 
 # Define VideoStream class to handle streaming of video from webcam in separate processing thread
 # Source - Adrian Rosebrock, PyImageSearch: https://www.pyimagesearch.com/2015/12/28/increasing-raspberry-pi-fps-with-python-and-opencv/
-TIMEOUT = 10
-TIMEOUT_360 = 20
 class VideoStream:
     """Camera object that controls video streaming from the Picamera"""
     def __init__(self,resolution=(640,480),framerate=30):
@@ -56,12 +54,10 @@ class ObjectDetection:
         self.TARGET = "apple"
         self.objectFound = False
         MODEL_NAME = "TFLite_Model"
-        GRAPH_NAME = "detect.tflite"
-        LABELMAP_NAME = "labelmap.txt"
         self.min_conf_threshold = 0.6
         resW= 1280
         resH = 720
-        self.imW, self.imH = int(resW), int(resH)
+        imW, imH = int(resW), int(resH)
         use_TPU = 0
         self.look = True
 		
@@ -85,10 +81,10 @@ class ObjectDetection:
         CWD_PATH = os.getcwd()
 
         # Path to .tflite file, which contains the model that is used for object detection
-        PATH_TO_CKPT = os.path.join(CWD_PATH,"src/object_detection",MODEL_NAME,GRAPH_NAME)
+        PATH_TO_CKPT = os.path.join(CWD_PATH,MODEL_NAME,GRAPH_NAME)
 
         # Path to label map file
-        PATH_TO_LABELS = os.path.join(CWD_PATH,"src/object_detection",MODEL_NAME,LABELMAP_NAME)
+        PATH_TO_LABELS = os.path.join(CWD_PATH,MODEL_NAME,LABELMAP_NAME)
 
         # Load the label map
         with open(PATH_TO_LABELS, 'r') as f:
@@ -114,8 +110,8 @@ class ObjectDetection:
         # Get model details
         self.input_details = self.interpreter.get_input_details()
         self.output_details = self.interpreter.get_output_details()
-        self.height = self.input_details[0]['shape'][1]
-        self.width = self.input_details[0]['shape'][2]
+        self.height = input_details[0]['shape'][1]
+        self.width = input_details[0]['shape'][2]
 
         self.floating_model = (self.input_details[0]['dtype'] == np.float32)
 
@@ -124,48 +120,14 @@ class ObjectDetection:
 
 
         # Initialize video stream
-        
+        self.videostream = VideoStream(resolution=(imW,imH),framerate=30).start()
         time.sleep(1)
-	
-    # This is where movement will be called when object is found	
-    def start(self, obj):
-        isTimeout = False
-        # Start the thread that searches for objects
-        self.TARGET = obj
-        if(self.labels.count(self.TARGET) > 0):
-            self.videostream = VideoStream(resolution=(self.imW,self.imH),framerate=30).start()
-            self_thread = Thread(target=self.search,args=())
-            startTime = time.perf_counter()
-            self_thread.start()
 		
-		    #Check if object has been found
-            found = self.searchResults()
-            while(not found):
-                if(time.perf_counter()-startTime < TIMEOUT ):
-                    # IF NOT TIMED OUT and object not found, SPIN IN ONE DIRECTION
-                        # spin right for x amount of time
-						
-                    # check if object found yet:
-                    found = self.searchResults()
-
-                    # except KeyboardInterrupt:
-                    # print("KeyboardInterrupt at start()")
-                else:
-                    isTimeout = True
-                    break
-					
-		    #Run movement if object found and not timeout
-            if(not isTimeout):
-                # run alignment
-                self.runRobot()
-				
-			#close streams
-            ObjectDetection.stop(self)		
-            self.videostream.stop()   
+    def start(self, obj):
+        # Start the thread that reads frames from the video streams
+        self.TARGET = obj
+        Thread(target=self.search,args=()).start()
         return self
-	
-	#def align(self):
-        #check if object is on the left or right frame
 	
     def stop(self):
         self.objectFound = False
@@ -173,38 +135,9 @@ class ObjectDetection:
 		
     def searchResults(self):
         return self.objectFound
-
-    def runRobot(self):
-
-        # from src.object_detection.ultrasensor.ultrasonic import distance 
-        from object_detection.ultrasensor.ultrasonic import distance
-        from object_detection.movement.arm_movement import open, close
-
-        opened = False
-
-        while(True):       
-
-            current_distance = distance()
-
-            if((current_distance < 21) and (opened == False)):
-                print(f'Close to object: distance = {current_distance}')
-                open()
-                opened = True
-
-            elif(current_distance < 7):
-                print(f'Around object: distance = {current_distance}')
-                close()
-                break
-            else:
-                print(f'Moving, distance = {current_distance}')
-                # from src.object_detection.movement.motor_controls import run
-                from object_detection.movement.motor_controls import run
-                run(1)
-		
+	
     def search(self):
         while (self.look):
-
-            # try:
 
             # Grab frame from video stream
             frame1 = self.videostream.read()
@@ -233,8 +166,9 @@ class ObjectDetection:
             for i in range(len(scores)):
                 if ((scores[i] > self.min_conf_threshold) and (scores[i] <= 1.0) and (self.TARGET=="NA" or (self.TARGET==self.labels[int(classes[i])]))):
                     self.objectFound = True
-            
-            print(self.objectFound)	
 
-            # except KeyboardInterrupt:
-            #     print("KeyboardInterrupt at search()")
+            
+
+            # Press 'q' to quit
+            if cv2.waitKey(1) == ord('q'):
+                break
