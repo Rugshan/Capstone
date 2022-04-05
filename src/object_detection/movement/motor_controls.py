@@ -29,8 +29,8 @@ def motor_init():
     GPIO.setup(IN3,GPIO.OUT,initial=GPIO.LOW)
     GPIO.setup(IN4,GPIO.OUT,initial=GPIO.LOW)
     #Set the PWM pin and frequency is 2000hz
-    pwm_ENA = GPIO.PWM(ENA, 2000)
-    pwm_ENB = GPIO.PWM(ENB, 2000)
+    pwm_ENA = GPIO.PWM(ENA, 1000)
+    pwm_ENB = GPIO.PWM(ENB, 1000)
     pwm_ENA.start(0)
     pwm_ENB.start(0)
 
@@ -41,8 +41,8 @@ def run(delaytime):
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.HIGH)
     GPIO.output(IN4, GPIO.LOW)
-    pwm_ENA.ChangeDutyCycle(15)
-    pwm_ENB.ChangeDutyCycle(15)
+    pwm_ENA.ChangeDutyCycle(6)
+    pwm_ENB.ChangeDutyCycle(6)
     time.sleep(delaytime)
     brake()
 
@@ -53,32 +53,8 @@ def back(delaytime):
     GPIO.output(IN2, GPIO.HIGH)
     GPIO.output(IN3, GPIO.LOW)
     GPIO.output(IN4, GPIO.HIGH)
-    pwm_ENA.ChangeDutyCycle(15)
-    pwm_ENB.ChangeDutyCycle(15)
-    time.sleep(delaytime)
-    brake()
-
-#turn left
-def left(delaytime):
-    motor_init()
-    GPIO.output(IN1, GPIO.LOW)
-    GPIO.output(IN2, GPIO.LOW)
-    GPIO.output(IN3, GPIO.HIGH)
-    GPIO.output(IN4, GPIO.LOW)
-    pwm_ENA.ChangeDutyCycle(15)
-    pwm_ENB.ChangeDutyCycle(15)
-    time.sleep(delaytime)
-    brake()
-
-#turn right
-def right(delaytime):
-    motor_init()
-    GPIO.output(IN1, GPIO.HIGH)
-    GPIO.output(IN2, GPIO.LOW)
-    GPIO.output(IN3, GPIO.LOW)
-    GPIO.output(IN4, GPIO.LOW)
-    pwm_ENA.ChangeDutyCycle(15)
-    pwm_ENB.ChangeDutyCycle(15)
+    pwm_ENA.ChangeDutyCycle(6)
+    pwm_ENB.ChangeDutyCycle(6)
     time.sleep(delaytime)
     brake()
 
@@ -89,8 +65,8 @@ def spin_left(delaytime):
     GPIO.output(IN2, GPIO.HIGH)
     GPIO.output(IN3, GPIO.HIGH)
     GPIO.output(IN4, GPIO.LOW)
-    pwm_ENA.ChangeDutyCycle(15)
-    pwm_ENB.ChangeDutyCycle(15)
+    pwm_ENA.ChangeDutyCycle(8)
+    pwm_ENB.ChangeDutyCycle(8)
     time.sleep(delaytime)
     brake()
 
@@ -101,8 +77,8 @@ def spin_right(delaytime):
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.LOW)
     GPIO.output(IN4, GPIO.HIGH)
-    pwm_ENA.ChangeDutyCycle(15)
-    pwm_ENB.ChangeDutyCycle(15)
+    pwm_ENA.ChangeDutyCycle(8)
+    pwm_ENB.ChangeDutyCycle(8)
     time.sleep(delaytime)
     brake()
 
@@ -112,10 +88,6 @@ def brake():
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.LOW)
     GPIO.output(IN4, GPIO.LOW)
-    pwm_ENA.ChangeDutyCycle(15)
-    pwm_ENB.ChangeDutyCycle(15)
     pwm_ENA.stop()
     pwm_ENB.stop()
-    GPIO.cleanup() 
-
-
+    GPIO.cleanup()
