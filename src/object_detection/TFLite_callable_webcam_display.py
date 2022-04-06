@@ -210,7 +210,7 @@ class ObjectDetection:
     
     def spinSearch(self):
         from object_detection.movement.motor_controls import spin_right 
-        spin_right(3.5)	
+        spin_right(0.8)	
 
 		
     def runRobot(self):
@@ -253,7 +253,7 @@ class ObjectDetection:
         # spin_left(6)
         lift_down()
         arm_open()
-        back(1.5)
+        back(3)
         close()
         # spin_left(6)
 

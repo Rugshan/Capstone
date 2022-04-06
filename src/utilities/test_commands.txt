@@ -19,3 +19,7 @@ from src.object_detection.movement.lift_servo import *
 cd Capstone/
 python3
 from src.object_detection.movement.camera_servos import *
+
+
+# Undervoltage
+dmesg | grep -iC 3 "under-voltage detected"

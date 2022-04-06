@@ -4,5 +4,6 @@
 
 cd /home/pi/Capstone/
 sudo pigpiod
-# python3 src/robot.py 
+# sudo -u pi python3 ./src/robot.py
+cd /
 
