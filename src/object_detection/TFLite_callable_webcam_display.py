@@ -173,6 +173,8 @@ class ObjectDetection:
 		    #Run movement if object found and not timeout
             if(not isTimeout):
                 self.align()
+                ObjectDetection.stop(self)		
+                self.videostream.stop() 
                 self.runRobot()
 				
 			#close streams
