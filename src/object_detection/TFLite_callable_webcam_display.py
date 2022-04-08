@@ -143,6 +143,8 @@ class ObjectDetection:
 
         # Start the thread that searches for objects
         self.TARGET = obj
+        if(self.TARGET == "ball"):
+            self.TARGET = "sports ball"		
         if(self.TARGET == "borrow"):
             self.TARGET = "bottle"
         if(self.labels.count(self.TARGET) > 0):
