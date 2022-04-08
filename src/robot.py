@@ -30,9 +30,9 @@ from object_detection.movement.arm_movement import close as arm_close
 print('Closing arm...')
 arm_close()
 
-# # Default camera pos.
-# from object_detection.movement.camera_servos import default_pos as camera_default_pos
-# camera_default_pos()
+# Default camera pos.
+from object_detection.movement.camera_servos import default_pos as camera_default_pos
+camera_default_pos()
 
 # Porcupine/PyAudio Variables
 porcupine = None

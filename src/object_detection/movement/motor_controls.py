@@ -65,8 +65,8 @@ def spin_left(delaytime):
     GPIO.output(IN2, GPIO.HIGH)
     GPIO.output(IN3, GPIO.HIGH)
     GPIO.output(IN4, GPIO.LOW)
-    pwm_ENA.ChangeDutyCycle(8)
-    pwm_ENB.ChangeDutyCycle(8)
+    pwm_ENA.ChangeDutyCycle(4)
+    pwm_ENB.ChangeDutyCycle(4)
     time.sleep(delaytime)
     brake()
 
@@ -77,8 +77,8 @@ def spin_right(delaytime):
     GPIO.output(IN2, GPIO.LOW)
     GPIO.output(IN3, GPIO.LOW)
     GPIO.output(IN4, GPIO.HIGH)
-    pwm_ENA.ChangeDutyCycle(8)
-    pwm_ENB.ChangeDutyCycle(8)
+    pwm_ENA.ChangeDutyCycle(4)
+    pwm_ENB.ChangeDutyCycle(4)
     time.sleep(delaytime)
     brake()
 
