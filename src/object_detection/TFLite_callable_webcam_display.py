@@ -143,6 +143,10 @@ class ObjectDetection:
 
         # Start the thread that searches for objects
         self.TARGET = obj
+        if(self.TARGET == "ball"):
+            self.TARGET = "sports ball"		
+        if(self.TARGET == "borrow"):
+            self.TARGET = "bottle"
         if(self.labels.count(self.TARGET) > 0):
             self.videostream = VideoStream(resolution=(self.imW,self.imH),framerate=30).start()
             self_thread = Thread(target=self.search,args=())
