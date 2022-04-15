@@ -48,7 +48,7 @@ Please install the following packages required for Porcupine:
 3. **After every log in, please run: ```jack_control start```**
 
 #### Change User Limits ((src)[https://jackaudio.org/faq/linux_rt_config.html])
-1. ```sudo nano /etc/security/limits.d/audio.d```  
+1. ```sudo nano /etc/security/limits.d/audio.conf```  
 2. Add the following two lines and save to the file:
    1. ```@audio   -  rtprio     95```
    2. ```@audio   -  memlock    unlimited```
@@ -75,12 +75,13 @@ Where, the access key can be obtained by creating a free account at https://pico
 ### Starting The Program
 1. `cd Capstone`
 2. `jack_control start`
-3. `python3 src/robot.py`  
+3. `python3 src/porcupine.py`  
 
 #### Current Voice Commands:
 The free Picovoice license is limits the number of custom wake-words, so the current wake words are:
-- `fetch [OBJECT_NAME]` for fetch
-- `selfie' for selfie
+- `grapefruit` for fetch
+- `terminator` for follow
+- `view glass` for selfie
    - Images are saved in `Capstone/saved_images/`
    - The *saved_images/* directory is added to .gitignore to keep it out of the repository.
 
