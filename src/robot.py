@@ -24,6 +24,16 @@ if platform == 'Ubuntu':
 elif platform == "Raspberry Pi":
     keyword_path = ['src/utilities/keywords/robot_en_raspberry-pi_v2_1_0.ppn']
 
+
+# Close Arm
+from object_detection.movement.arm_movement import close as arm_close
+print('Closing arm...')
+arm_close()
+
+# Default camera pos.
+from object_detection.movement.camera_servos import default_pos as camera_default_pos
+camera_default_pos()
+
 # Porcupine/PyAudio Variables
 porcupine = None
 pa = None
@@ -82,7 +92,7 @@ try:
 
     # Prompt
     print(f"\nYour wake-word is: 'robot'.")
-    print("Say a 'robot' to start listening for commands...\n")
+    print("Say 'robot' to start listening for commands...\n")
 
     # Listen for Porcupine wake-words.
     while True:
@@ -116,12 +126,19 @@ try:
                 if recog_list[0] == 'fetch' or recog_list[0] == 'get' or recog_list[0] == 'grab':
 
                     print(f"Command '{recog_list[0]}' detected.")
-                    print(f"Fetching '{recog_list[1]}'...")
+                    
+                    if len(recog_list) < 2:
 
-                    # ADD OBJECT DETECTION FUNCTION
-                    from object_detection.TFLite_callable_webcam_display import ObjectDetection
-                    fetch_object_detection = ObjectDetection()
-                    fetch_object_detection.start(recog_list[1])
+                        print("Didn't hear an object name, try again...")
+
+                    else:
+                        
+                        print(f"Fetching '{recog_list[1]}'...")
+
+                        # ADD OBJECT DETECTION FUNCTION
+                        from object_detection.TFLite_callable_webcam_display import ObjectDetection
+                        fetch_object_detection = ObjectDetection()
+                        fetch_object_detection.start(recog_list[1])
                 
                 # Follow Program
                 if recog_list[0] == 'follow':
@@ -143,9 +160,8 @@ try:
 
                 # Close Arm
                 if recog_list[0] == 'close':
-                    from object_detection.movement.arm_movement import close
                     print('Closing arm...')
-                    close()
+                    arm_close()
 
                 # Open Arm
                 if recog_list[0] == 'open':
@@ -182,6 +198,7 @@ try:
             
             except sr.UnknownValueError:
                 print("Google Speech Recognition could not understand audio")
+                print("Say 'robot' to start listening for commands...\n")
 
             except sr.RequestError as e:
                 print("Could not request results from Google Speech Recognition service; {0}".format(e))
