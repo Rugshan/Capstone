@@ -23,4 +23,3 @@ def down():
     for i in range (MAX_ANGLE,MIN_ANGLE, -1):
         servo.value = math.sin(math.radians(i))
         sleep(0.01)
-
