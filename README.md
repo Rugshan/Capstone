@@ -11,7 +11,7 @@ https://www.torontomu.ca/engineering-architectural-science/stories-events/2022/0
 
 - Finished Prototype
 
-  <img src="docs/images/1.jpeg" alt="Finished Autonomous Rover" width="600"/>
+  <img src="docs/doc_images/1.jpeg" alt="Finished Autonomous Rover" width="600"/>
 <br>
 
 ## Features
@@ -19,27 +19,27 @@ https://www.torontomu.ca/engineering-architectural-science/stories-events/2022/0
 
 - The lifting-arm uses a DC motor to open and close the arms. This allows for the robot to put its arms around an object, and close them on it, lifting the object up from underneath. Additional electronics, such as an ultrasonic sensor and a webcam, are also used to assist the lifting-arm.
 
-  <img src="docs/images/2_1.png" alt="Arm Closed / Opened" width="600"/>
+  <img src="docs/doc_images/2_1.png" alt="Arm Closed / Opened" width="600"/>
 <br>
 
 - The robot uses a servo motor for lifting the entire platform up and down. This allows for precise, and ajustable, control of the platform's position. Lifting the platform prevents the arms from getting snagged on surfaces and also reduces the friction significantly.
 
-  <img src="docs/images/2_2.png" alt="Arm Lowered / Raised" width="600"/>
+  <img src="docs/doc_images/2_2.png" alt="Arm Lowered / Raised" width="600"/>
 <br>
 
 - The robot's use-case is simple; providing fetching assistance by voice command.
 
-  <img src="docs/images/3_1.png" alt="Use-case Diagram" width="600"/>
+  <img src="docs/doc_images/3_1.png" alt="Use-case Diagram" width="600"/>
 <br>
 
 - The robot's logic can be seen by the activity/flow diagram below. 'Listening' is done by using Porcupine by Picovoice for wake-word/hot-word detection. Google's Speech-to-Text API is then used to support voice commands. Once a sucessful fetch command is recognized, and once the object is detected, the navigation incorporates the many electronics in order to complete the navigation and fetching operation.
 
-  <img src="docs/images/3_2.png" alt="Activity Flow Diagram" width="600"/>
+  <img src="docs/doc_images/3_2.png" alt="Activity Flow Diagram" width="600"/>
 <br>
 
 - Object detection is implemented using a TensorFlowLite model, specifically the mobileNet SSD V2 model for its efficient performance. The image below shows the model detecting 'banana' on a sample image. This accuracy is consistent when applying computer vision to the robot's webcam video stream.
 
-  <img src="docs/images/4.png" alt="Object Detection Demo" width="600"/>
+  <img src="docs/doc_images/4.png" alt="Object Detection Demo" width="600"/>
 <br>
 
 
